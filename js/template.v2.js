@@ -4224,9 +4224,6 @@ d-citation-list .references .title {
 
 code {
   white-space: nowrap;
-  background: rgba(0, 0, 0, 0.04);
-  border-radius: 2px;
-  padding: 4px 7px;
   font-size: 15px;
   color: rgba(0, 0, 0, 0.6);
 }

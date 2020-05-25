@@ -1,0 +1,121 @@
+<!doctype html>
+
+<head>
+  <script src="js/template.v2.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf8">
+  <title>JoVI example paper</title>
+</head>
+
+<body>
+  <d-front-matter>
+    <script id='distill-front-matter' type="text/json">{
+    "title": "JoVI example paper",
+    "description": "An example paper in the JoVI template.",
+    "published": "May 25, 2020",
+    "githubPath": "https://github.com/journalovi/jovi_template_html",
+    "authors": [
+      {
+        "author": "Matthew Kay",
+        "authorURL": "http://www.mjskay.com/",
+        "affiliations": [{"name": "Northwestern University"}]
+      }
+    ],
+    "endorsements": [
+      {
+        "name": "Matthew Kay",
+        "URL": "http://www.mjskay.com",
+        "version": "5e31c13eb582b3b82c66ea9891c6bd46237aa15f"
+      }
+    ]
+  }</script>
+  </d-front-matter>
+  
+  <d-title>
+    <figure class="l-page"><img src="images/teaser.svg" /></figure>
+    <p>A short description of your paper (with optional teaser figure) goes here. If you a using a raster format for images (such as PNG), a good width for the teaser image is 1968 pixels.
+    For charts and graphs, a vector format (SVG, used in the above example) is usually preferred.</p>
+  </d-title>
+  
+  <d-byline></d-byline>
+  <jovi-endorsements></jovi-endorsements>
+  
+  <d-article>
+    <h2>Introduction</h2>
+    <p>The Journal of Visualization and Interaction (JoVI) uses a slightly-modified version of the 
+      <a href="https://distill.pub/">Distill</a> template. This template supports useful things like
+      citations <d-cite bibtex-key="simkin2002read"></d-cite>, footnotes,<d-footnote>For example, here is a footnote</d-footnote>
+      and asides.<aside>Such as this aside, appearing <em>aside</em> the body text!</aside></p>
+      
+    <h2>Figures</h2>
+    <p>Figures can come with captions and can be placed in two positions relative to the main column
+    using CSS classes:
+    <figure class="l-body">
+      <img src="images/teaser.svg" />
+      <figcaption>A caption for a figure with <strong><code>class="l-body"</code></strong>.</figcaption>
+    </figure>
+    <figure class="l-page">
+      <img src="images/teaser.svg" />
+      <figcaption>A caption for a figure with <strong><code>class="l-page"</code></strong>.</figcaption>
+    </figure>
+    <p>The Layouts section of the <a href="https://distill.pub/guide">Distill guide</a> has more information on how
+    to do floating figures or figres in the gutter.</p>
+    
+    <h2>Math</h2>
+    <p>Here's a test of an inline equation <d-math>c = a^2 + b^2</d-math>. Also with configurable katex standards just
+      using inline '$' signs: $$x^2$$ And then there's a block equation:</p>
+    <d-math block>
+      c = \pm \sqrt{ \sum_{i=0}^{n}{a^{222} + b^2}}
+    </d-math>
+    
+    <h2>Code</h2>
+    <p>The template uses <a href="https://prismjs.com/#supported-languages">Prism</a> to display code using syntax highlighting, 
+    including inline code (e.g. <d-code language="javascript">var x = 25;</d-code>) and code blocks:
+    </p>
+    <d-code block language="javascript">
+      var x = 25;
+      function(x) {
+        return x * x;
+      }
+    </d-code>
+    <p>By default, the Prism modules for python, C-like languages (<code>clike</code>), lua, bash, go, markdown, julia, R, and 
+    markup languages (HTML, CSS, etc) are enabled. If you wish to use another language let us know and we can set it up.</p>
+    
+    <h2>Tables</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>First</th>
+          <th>Second</th>
+          <th>Third</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>23</td>
+          <td>654</td>
+          <td>23</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>54</td>
+          <td>34</td>
+        </tr>
+        <tr>
+          <td>234</td>
+          <td>54</td>
+          <td>23</td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </d-article>
+
+  <d-appendix>
+    <h3>Contributions</h3>
+    <p>Some text describing who did what.</p>
+
+    <d-bibliography src="bibliography.bib"></d-bibliography>
+  </d-appendix>
+
+</body>

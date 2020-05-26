@@ -847,6 +847,25 @@ ${math}
     return [...citations];
   }
 
+  function inline_cite_author(ent) {
+    var names = ent.author.split(" and ");
+    names = names.map(name => name.split(",")[0].trim());
+    if (names.length == 1) return names[0];
+    if (names.length == 2) return names[0] + " & " + names[1];
+    if (names.length > 2) return names[0] + " et al.";
+  }
+
+  function inline_cite_long_entries(entries) {
+    function cite_string(ent) {
+      if (ent) {
+        return inline_cite_author(ent) + " " + ent.year;
+      } else {
+        return "?";
+      }
+    }
+    return entries.map(cite_string).join(", ");
+  }
+
   function author_string(ent, template, sep, finalSep) {
     if (ent.author == null) {
       return "";
@@ -2165,8 +2184,7 @@ d-appendix > distill-appendix {
   line-height: 1.1em;
   text-align: center;
   position: relative;
-  top: -2px;
-  margin: 0 2px;
+  top: -1px;
 }
 
 figcaption .citation-number {
@@ -2196,6 +2214,7 @@ ul li:last-of-type {
 <d-hover-box id="hover-box"></d-hover-box>
 
 <div id="citation-" class="citation">
+  <span class="citation-name"></span>
   <span class="citation-number"></span>
 </div>
 `
@@ -2211,6 +2230,7 @@ ul li:last-of-type {
 
     connectedCallback() {
       this.outerSpan = this.root.querySelector("#citation-");
+      this.nameSpan = this.root.querySelector(".citation-name");
       this.innerSpan = this.root.querySelector(".citation-number");
       this.hoverBox = this.root.querySelector("d-hover-box");
       window.customElements.whenDefined("d-hover-box").then(() => {
@@ -2273,12 +2293,9 @@ ul li:last-of-type {
     }
 
     displayNumbers(numbers) {
-      if (!this.innerSpan) return;
-      const numberStrings = numbers.map(index => {
-        return index == -1 ? "?" : index + 1 + "";
-      });
-      const textContent = "[" + numberStrings.join(", ") + "]";
-      this.innerSpan.textContent = textContent;
+      // This is a no-op for JoVI
+      // TODO: could make this configurable
+      return;
     }
 
     set entries(entries) {
@@ -2291,13 +2308,30 @@ ul li:last-of-type {
     }
 
     displayEntries(entries) {
-      if (!this.hoverBox) return;
-      this.hoverBox.innerHTML = `<ul>
-      ${entries
-        .map(hover_cite)
-        .map(html => `<li>${html}</li>`)
-        .join("\n")}
-    </ul>`;
+      // textual citation is Smith [2002] instead of [Smith 2002]
+      const textualCite = this.hasAttribute("textual") && this.nameSpan && entries.length == 1;
+        
+      if (textualCite) {
+        const ent = entries[0];
+        this.nameSpan.textContent = inline_cite_author(ent);
+        if (this.innerSpan) {
+          this.innerSpan.textContent = "[" + ent.year + "]";
+        }
+      } else {
+        if (this.innerSpan) {
+          const textContent = "[" + inline_cite_long_entries(entries) + "]";
+          this.innerSpan.textContent = textContent;
+        }
+      }
+          
+      if (this.hoverBox) {
+        this.hoverBox.innerHTML = `<ul>
+        ${entries
+          .map(hover_cite)
+          .map(html => `<li>${html}</li>`)
+          .join("\n")}
+      </ul>`;
+      }
     }
   }
 
@@ -4639,22 +4673,58 @@ d-references {
     display: block;
   }
 
+  @media (min-width: 1000px) {
+    d-toc {      
+      grid-column-start: 1;
+      grid-column-end: 4;
+      grid-row-start: 1;
+      grid-row-end: 10;
+      justify-self: end;
+      padding-top: 1rem;
+      padding-right: 1rem;
+    }
+
+    d-toc nav {
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  d-toc h2 {
+    font-size: 20px;
+    font-weight: 700;
+    border: none;
+    padding-bottom: 0;
+    margin-top: 0;
+  }
+  
   d-toc ul {
     padding-left: 0;
+    list-style-type: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, sans-serif;
+  }
+
+  d-toc > nav > ul > li {
+    font-weight: 700;
+  }
+
+  d-toc li, d-toc ul {
+    margin-bottom: 0.5em;
   }
 
   d-toc ul > ul {
-    padding-left: 24px;
+    padding-left: 12px;
   }
 
   d-toc a {
     border-bottom: none;
     text-decoration: none;
   }
+  
 
   </style>
-  <nav role="navigation" class="table-of-contents"></nav>
-  <h2>Table of contents</h2>
+  <nav role="navigation" class="table-of-contents figcaption">
+  <h2>Contents</h2>
   <ul>`;
 
     for (const el of headings) {
@@ -4669,8 +4739,6 @@ d-references {
       let newLine = '<li>' + '<a href="' + link + '">' + title + '</a>' + '</li>';
       if (el.tagName == 'H3') {
         newLine = '<ul>' + newLine + '</ul>';
-      } else {
-        newLine += '<br>';
       }
       ToC += newLine;
 

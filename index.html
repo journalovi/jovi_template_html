@@ -41,13 +41,20 @@
   <jovi-endorsements></jovi-endorsements>
   
   <d-article>
-    <h2>Introduction</h2>
+    <d-toc></d-toc>
+    <h2 id="intro">Introduction</h2>
     <p>The Journal of Visualization and Interaction (JoVI) uses a slightly-modified version of the 
       <a href="https://distill.pub/">Distill</a> template. This template supports useful things like
-      citations <d-cite bibtex-key="simkin2002read"></d-cite>, footnotes,<d-footnote>For example, here is a footnote</d-footnote>
-      and asides.<aside>Such as this aside, appearing <em>aside</em> the body text!</aside></p>
+      citations <d-cite bibtex-key="simkin2002read"></d-cite>, footnotes,<d-footnote>For example, here is a footnote. Note
+      how this footnote comes <em>after</em> the comma, not before it; this avoids ugly whitespace.</d-footnote>
+      and asides. We can 
+      also do <em>textual</em> citations, e.g. referring to <d-cite textual bibtex-key="simkin2002read"></d-cite> 
+      by name in a sentence.</p>
+      <aside>Such as this aside, appearing <em>aside</em> the body text!</aside>
       
-    <h2>Figures</h2>
+    <h2 id="elements">Document elements</h2>
+    
+    <h3 id="figures">Figures</h3>
     <p>Figures can come with captions and can be placed in two positions relative to the main column
     using CSS classes:
     <figure class="l-body">
@@ -61,14 +68,14 @@
     <p>The Layouts section of the <a href="https://distill.pub/guide">Distill guide</a> has more information on how
     to do floating figures or figres in the gutter.</p>
     
-    <h2>Math</h2>
+    <h3 id="math">Math</h3>
     <p>Here's a test of an inline equation <d-math>c = a^2 + b^2</d-math>. Also with configurable katex standards just
       using inline '$' signs: $$x^2$$ And then there's a block equation:</p>
     <d-math block>
       c = \pm \sqrt{ \sum_{i=0}^{n}{a^{222} + b^2}}
     </d-math>
     
-    <h2>Code</h2>
+    <h3 id="code">Code</h3>
     <p>The template uses <a href="https://prismjs.com/#supported-languages">Prism</a> to display code using syntax highlighting, 
     including inline code (e.g. <d-code language="javascript">var x = 25;</d-code>) and code blocks:
     </p>
@@ -81,7 +88,7 @@
     <p>By default, the Prism modules for python, C-like languages (<code>clike</code>), lua, bash, go, markdown, julia, R, and 
     markup languages (HTML, CSS, etc) are enabled. If you wish to use another language let us know and we can set it up.</p>
     
-    <h2>Tables</h2>
+    <h3 id="tables">Tables</h3>
     <table>
       <thead>
         <tr>
@@ -108,6 +115,10 @@
         </tr>
       </tbody>
     </table>
+    
+    <h2 id="appendices">Appendices</h2>
+    <p>Appendices are added to the end of the document in the <d-code language="html">&lt;d-appendix&gt;&lt;/d-appendix&gt;</d-code> block.</p>
+    
     
   </d-article>
 
